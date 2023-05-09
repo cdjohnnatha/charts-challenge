@@ -1,11 +1,11 @@
 import React from 'react';
 import { useChartApi } from './hooks/useChartApi';
-// import './App.css';
 
 function App() {
   const { data } = useChartApi();
   // eslint-disable-next-line no-console
   console.log('data', data);
+
   return (
     <div className="App">
       <header className="App-header">
