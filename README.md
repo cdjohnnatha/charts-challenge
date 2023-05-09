@@ -44,3 +44,12 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+---
+
+## Apps, Packages, and Tools
+
+This repo has 2 main top-level categories:
+
+- `src/` - for project files
+- `codeceptjs-test/` - for functional UI test and E2E test
