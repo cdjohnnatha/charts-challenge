@@ -1,0 +1,13 @@
+{
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "target": "es2021",
+    "lib": ["es2021", "DOM"],
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "strictNullChecks": true,
+    "types": ["codeceptjs"]
+  }
+}
