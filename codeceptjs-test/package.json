@@ -1,0 +1,30 @@
+{
+  "name": "codeceptjs-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CodeceptJS Test",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint .",
+    "codeceptjs": "codeceptjs run --steps",
+    "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
+    "codeceptjs:ui": "codecept-ui --app",
+    "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples",
+    "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples",
+    "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples"
+  },
+  "devDependencies": {
+    "@codeceptjs/configure": "^0.10.0",
+    "@codeceptjs/examples": "^1.2.1",
+    "@codeceptjs/ui": "^0.5.0",
+    "@types/node": "^20.1.1",
+    "codeceptjs": "^3.4.1",
+    "playwright": "^1.33.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  }
+}
