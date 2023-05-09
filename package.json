@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tanstack/react-query": "^4.29.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,7 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "NODE_ENV=development react-scripts start",
     "build": "react-scripts build",
     "test": "jest --silent",
     "eject": "react-scripts eject",
@@ -62,6 +63,7 @@
     "husky": "^8.0.3",
     "jsdom": "^22.0.0",
     "lint-staged": "^13.2.2",
+    "msw": "^1.2.1",
     "playwright": "^1.33.0",
     "prettier": "2.8.8",
     "ts-jest": "^29.1.0",
@@ -70,5 +72,8 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
