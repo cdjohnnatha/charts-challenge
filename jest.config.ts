@@ -36,6 +36,7 @@ export default {
     'jest.config.ts',
     'setupTests.ts',
     '/codeceptjs-test/',
+    '/cypress/',
     'src/mocs',
   ],
 
