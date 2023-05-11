@@ -23,7 +23,6 @@ jobs:
 
   lint:
     name: Full project lint
-    if: inputs.skipCodeLinting != true
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -38,7 +37,6 @@ jobs:
 
   unit-test:
     name: Unit test
-    if: inputs.skipUnitTest != true
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -53,15 +51,3 @@ jobs:
         run: npm run test -- -- . --coverage
         env:
           CI: true
-
-      - name: Move test-report.xml
-        shell: bash
-        run: mv ${{ github.workspace }}/tools/jest/test-report.xml ${{ github.workspace }}/coverage/test-report.xml
-
-      - name: Upload Coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage@${{ github.run_number }}
-          path: ${{ github.workspace }}/coverage
-          if-no-files-found: error
-          retention-days: 7
