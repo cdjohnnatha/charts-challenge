@@ -31,7 +31,7 @@ const NavBar = styled.nav({
   boxShadow: '0 2px 2px 2px rgba(9, 9, 9, 0.23)',
 });
 
-const NavBarControls = styled.div({
+const ToolsBar = styled.div({
   minHeight: '3rem',
   padding: spacing(2),
   display: 'flex',
@@ -74,9 +74,9 @@ function App() {
   return (
     <GridLayout>
       <NavBar>
-        <Header title="Reports" description="Welcome to resports page" />
+        <Header title="Reports" description="Welcome to reports page" />
         <Line />
-        <NavBarControls>
+        <ToolsBar>
           <Dropdown
             name="metricsType"
             label="Choose metrics time"
@@ -88,7 +88,7 @@ function App() {
             selected={timeMetricsSelected}
             onSelect={onSelectTimeType}
           />
-        </NavBarControls>
+        </ToolsBar>
       </NavBar>
       <Main>
         {!isLoading && data && (

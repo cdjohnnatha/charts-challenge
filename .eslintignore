@@ -1,3 +1,5 @@
 dist
 node_modules
 steps.d.ts
+cypress/plugins/*
+cypress.config.js

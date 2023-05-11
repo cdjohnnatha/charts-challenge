@@ -37,7 +37,7 @@ const CardContent = styled.div({
 
 export default function Card({ title, description, children }: CardProps) {
   return (
-    <StyledCard>
+    <StyledCard className="styled-card">
       <CardLabel>{title}</CardLabel>
       <CardContent>{children}</CardContent>
       {description && (
