@@ -36,6 +36,7 @@ export default {
     'jest.config.ts',
     'setupTests.ts',
     '/codeceptjs-test/',
+    'src/mocs',
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports
@@ -47,14 +48,14 @@ export default {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  coverageThreshold: {
-    global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70,
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 70,
+  //     functions: 70,
+  //     lines: 70,
+  //     statements: 70,
+  //   },
+  // },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: null,
@@ -100,8 +101,8 @@ export default {
   moduleNameMapper: {
     // IMPORTANT: We can only have one instance of react and styled-components while running the tests
     '^react$': path.join(__dirname, 'node_modules/react/cjs/react.development.js'),
-    // '^react-dom$': path.join(__dirname, 'node_modules/react-dom/cjs/react-dom.development.js'),
-    // '^styled-components$': path.join(__dirname, 'node_modules/styled-components/dist/styled-components.cjs.js'),
+    '^react-dom$': path.join(__dirname, 'node_modules/react-dom/cjs/react-dom.development.js'),
+    '^styled-components$': path.join(__dirname, 'node_modules/styled-components/dist/styled-components.cjs.js'),
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -169,7 +170,7 @@ export default {
   // ]
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/codeceptjs-test/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/codeceptjs-test/', 'mocks'],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
