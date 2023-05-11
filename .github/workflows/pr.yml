@@ -6,8 +6,4 @@ jobs:
   build-and-deploy:
     name: PR
     uses: ./.github/workflows/build-and-deploy.yml
-    needs: get-ticket-number
     secrets: inherit
-    with:
-      environment: dev
-      ticketNumber: ${{ needs.get-ticket-number.outputs.ticket-number }}
