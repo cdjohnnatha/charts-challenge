@@ -78,8 +78,11 @@ function App() {
           <Grid>
             <Row>
               <Col>
-                <Card title="Efficiency Average" description="The efficiency in a day" id="chart-efficiency-average">
-                  <PieChart useUncomplete sufixType="percentage" {...efficiencyAverageTransformProps(data)} />
+                <Card title="Availability in last shift" id="chart-availability-last-shift">
+                  <PieChart
+                    sufixType={timeMetricsSelected}
+                    {...transformMetricsToAvailabilityProps(data, timeMetricsSelected)}
+                  />
                 </Card>
               </Col>
               <Col>
@@ -97,13 +100,11 @@ function App() {
             </Row>
             <Row>
               <Col>
-                <Card title="Availability in last shift" id="chart-availability-last-shift">
-                  <PieChart
-                    sufixType={timeMetricsSelected}
-                    {...transformMetricsToAvailabilityProps(data, timeMetricsSelected)}
-                  />
+                <Card title="Efficiency Average" description="The efficiency in a day" id="chart-efficiency-average">
+                  <PieChart useUncomplete sufixType="percentage" {...efficiencyAverageTransformProps(data)} />
                 </Card>
               </Col>
+
               <Col>
                 <Card title="Loss" id="chart-loss">
                   <LineChart data={transformLoss(data)} indexBy="label" ariaLabel="loss chart" />

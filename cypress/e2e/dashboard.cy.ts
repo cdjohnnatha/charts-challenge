@@ -57,14 +57,14 @@ describe('Dashboard', () => {
       it('Clicking in hours metric should update the downtime chart to hours', () => {
         charts.getChartValues(charts.names.downtime).should('deep.equal', ['38 min', '3 min', '20.16 min']);
         navbar.clickOnTimeTypeSelect(timeBoxOptions.hours);
-        charts.getChartValues(charts.names.downtime).should('deep.equal', ['0.633 h', '0.05 h', '0.336 h']);
+        charts.getChartValues(charts.names.downtime).should('deep.equal', ['0h:38min', '0h:3min', '0h:20min']);
       });
 
       it('Clicking in hours metric should update the availability in last shift chart to use hours', () => {
         charts.getChartValues(charts.names.availabilityLastShift).should('deep.equal', ['61.16 min', '418.84 min']);
         navbar.clickOnTimeTypeSelect(timeBoxOptions.hours);
 
-        charts.getChartValues(charts.names.availabilityLastShift).should('deep.equal', ['1.01 h', '6.98 h']);
+        charts.getChartValues(charts.names.availabilityLastShift).should('deep.equal', ['1h:1min', '6h:59min']);
       });
     });
   });

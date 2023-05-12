@@ -6,6 +6,14 @@ export const minutesToSeconds = (value: number): number => value * 60;
 
 export const minutesToHours = (value: number): number => value / 60;
 
+export const formatDecimalHourToHHMM = (decimalHours: number): string => {
+  const n = new Date(0, 0);
+  n.setMinutes(+Math.round(decimalHours * 60));
+  const hours = n.getHours();
+  const minutes = n.getMinutes();
+  return `${hours}h:${minutes}min`;
+};
+
 export const roundDecimals = (value: number, qtyDecimals?: number): number => {
   const [digits, decimals] = `${value}`.split('.');
   let formattedNumber = parseInt(digits);
