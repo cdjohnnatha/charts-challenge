@@ -37,9 +37,9 @@ function Dropdown({ dataset, label, name, selected, onSelect }: DropdownProps) {
   return (
     <Container>
       <Label htmlFor={name}>{label}</Label>
-      <Select name={name} id="metrics-dropdown" onChange={onDropdownChange}>
+      <Select name={name} id="metrics-dropdown" onChange={onDropdownChange} value={selected}>
         {dataset.map(({ label, value }) => (
-          <option selected={selected === value} value={value}>
+          <option key={`metrics-dropdown-${label}`} value={value}>
             {label}
           </option>
         ))}

@@ -8,7 +8,6 @@ export interface RowProps {
 
 const Row = styled.div<RowProps>({
   display: 'flex',
-  flexShrink: 0,
   flexWrap: 'wrap',
 });
 
