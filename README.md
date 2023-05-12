@@ -1,4 +1,4 @@
-# Youtube freetime organizer
+# Charts Challenge
 
 ## Table of Contents
 
