@@ -55,7 +55,12 @@ class Charts {
     return this.getAllChartText(chartName)
       .each(($el) => {
         const text = $el.text();
-        const textWithoutTimeType = text.replace('secs', '').replace('h', '').replace('min', '').trim();
+        const textWithoutTimeType = text
+          .replace('secs', '')
+          .replace('h', '')
+          .replace('min', '')
+          .replace(':', '')
+          .trim();
         if (this.isNumber(textWithoutTimeType)) {
           values.push(text);
         }

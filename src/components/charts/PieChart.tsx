@@ -1,4 +1,5 @@
 import { ResponsivePie } from '@nivo/pie';
+import { formatDecimalHourToHHMM } from '../../packages/helpers/timeHelper';
 // import styled from 'styled-components';
 import Tooltip from './Tooltip';
 
@@ -29,8 +30,7 @@ const PieChart = ({ data, useUncomplete, sufixType }: PieChartProps) => {
         break;
       }
       case 'hours': {
-        sufix = 'h';
-        break;
+        return formatDecimalHourToHHMM(value);
       }
       case 'minutes': {
         sufix = 'min';

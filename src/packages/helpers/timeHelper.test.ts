@@ -1,4 +1,4 @@
-import { tranformFromTypeToTime } from './timeHelper';
+import { formatDecimalHourToHHMM, tranformFromTypeToTime } from './timeHelper';
 
 describe('tranformFromTypeToTime', () => {
   describe('Convert from hour', () => {
@@ -41,5 +41,9 @@ describe('tranformFromTypeToTime', () => {
 
       expect(value).toBe(0.016);
     });
+  });
+
+  it('Format decimal hour to hour', () => {
+    expect(formatDecimalHourToHHMM(1.5)).toBe('1h:30min');
   });
 });
