@@ -1,4 +1,5 @@
 import { ResponsiveBar } from '@nivo/bar';
+import Tooltip from './Tooltip';
 
 export type LineChartData = {
   id: string;
@@ -9,9 +10,10 @@ export type LineChartData = {
 export type LineProps = {
   data: Array<LineChartData>;
   indexBy: string;
+  ariaLabel: string;
 };
 
-const LineChart = ({ data, indexBy }: LineProps) => (
+const LineChart = ({ data, indexBy, ariaLabel }: LineProps) => (
   <ResponsiveBar
     data={data}
     indexBy={indexBy}
@@ -20,8 +22,12 @@ const LineChart = ({ data, indexBy }: LineProps) => (
     valueScale={{ type: 'linear' }}
     indexScale={{ type: 'band', round: true }}
     role="application"
-    ariaLabel="Nivo bar chart demo"
-    barAriaLabel={(e) => e.id + ': ' + e.formattedValue + ' in country: ' + e.indexValue}
+    ariaLabel={ariaLabel}
+    tooltip={({ color, label, value }) => (
+      <Tooltip color={color}>
+        {label.replace('value - ', '')}: {value}
+      </Tooltip>
+    )}
   />
 );
 

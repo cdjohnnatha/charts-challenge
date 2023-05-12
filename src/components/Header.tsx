@@ -1,15 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
+
+import { typography } from '../packages/theme';
 
 type HeaderProps = {
   title: string;
-  description: string;
 };
 
-export default function Header({ title, description }: HeaderProps) {
+const Label = styled.h1({
+  ...typography.md.bold,
+});
+
+export default function Header({ title }: HeaderProps) {
   return (
     <div>
-      <h1>{title}</h1>
-      <p>{description}</p>
+      <Label>{title}</Label>
     </div>
   );
 }

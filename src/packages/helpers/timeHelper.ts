@@ -6,7 +6,7 @@ export const minutesToSeconds = (value: number): number => value * 60;
 
 export const minutesToHours = (value: number): number => value / 60;
 
-const roundDecimals = (value: number, qtyDecimals?: number): number => {
+export const roundDecimals = (value: number, qtyDecimals?: number): number => {
   const [digits, decimals] = `${value}`.split('.');
   let formattedNumber = parseInt(digits);
 

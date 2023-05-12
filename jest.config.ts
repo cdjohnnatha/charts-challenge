@@ -37,7 +37,12 @@ export default {
     'setupTests.ts',
     '/codeceptjs-test/',
     '/cypress/',
-    'src/mocs',
+    '/src/mocks',
+    '/src/react-app-env.d.ts',
+    '/src/types.d.ts',
+    '/src/index.tsx',
+    '/src/components/charts/LineChart',
+    '/src/components/charts/',
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports
@@ -49,14 +54,14 @@ export default {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 70,
-  //     functions: 70,
-  //     lines: 70,
-  //     statements: 70,
-  //   },
-  // },
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: null,
@@ -104,6 +109,7 @@ export default {
     '^react$': path.join(__dirname, 'node_modules/react/cjs/react.development.js'),
     '^react-dom$': path.join(__dirname, 'node_modules/react-dom/cjs/react-dom.development.js'),
     '^styled-components$': path.join(__dirname, 'node_modules/styled-components/dist/styled-components.cjs.js'),
+    '^d3-color': path.join(__dirname, 'node_modules/d3-color/dist/d3-color.js'),
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -194,9 +200,8 @@ export default {
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  // transformIgnorePatterns: ['/node_modules/d3-(.*)'],(js|ts|tsx)
+  // transformIgnorePatterns: ['/node_modules/(?![@nivo(.*)|d3(.*)|d3-color/src/])'],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

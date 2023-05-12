@@ -1,10 +1,15 @@
 import { LineChartData } from './components/charts/LineChart';
-import { PieChartData } from './components/charts/PieChart';
+import { PieChartProps } from './components/charts/PieChart';
 import { MetricsResponse } from './hooks/useMetricsApi';
-import { tranformFromTypeToTime } from './packages/helpers/timeHelper';
+import { roundDecimals, tranformFromTypeToTime } from './packages/helpers/timeHelper';
 import { TimeType } from './types';
 
-export const transformDowntime = (data: Array<MetricsResponse>, timeType: TimeType): Array<PieChartData> => {
+type TransformToPieChartProps = Partial<PieChartProps> & Pick<PieChartProps, 'data'>;
+
+export const transformDowntimeToChartProps = (
+  data: Array<MetricsResponse>,
+  timeType: TimeType,
+): TransformToPieChartProps => {
   const downtime = data.filter(({ id }) => ['cln_shift', 'unexplained', 'mech_problems'].includes(id));
 
   const downtimePieChart = downtime.map(({ id, label, value, type }) => ({
@@ -13,10 +18,10 @@ export const transformDowntime = (data: Array<MetricsResponse>, timeType: TimeTy
     value: tranformFromTypeToTime(type as TimeType, timeType, value),
   }));
 
-  return downtimePieChart;
+  return { data: downtimePieChart };
 };
 
-export const transformEfficiency = (data: Array<MetricsResponse>): Array<PieChartData> => {
+export const efficiencyAverageTransformProps = (data: Array<MetricsResponse>): TransformToPieChartProps => {
   const efficiency = data.filter(({ id }) => ['oee'].includes(id));
 
   const downtimePieChart = efficiency.map(({ id, label, value }) => ({
@@ -25,10 +30,15 @@ export const transformEfficiency = (data: Array<MetricsResponse>): Array<PieChar
     value: value * 100,
   }));
 
-  return downtimePieChart;
+  return {
+    data: downtimePieChart,
+  };
 };
 
-export const transformAvailability = (data: Array<MetricsResponse>, timeType: TimeType): Array<PieChartData> => {
+export const transformMetricsToAvailabilityProps = (
+  data: Array<MetricsResponse>,
+  timeType: TimeType,
+): TransformToPieChartProps => {
   const efficiency = data.filter(({ id }) =>
     ['cln_shift', 'unexplained', 'mech_problems', 'shift_duration'].includes(id),
   );
@@ -47,18 +57,20 @@ export const transformAvailability = (data: Array<MetricsResponse>, timeType: Ti
     downtime += valueFormattedByTime;
   });
 
-  return [
-    {
-      id: 'downtime',
-      value: downtime,
-      label: 'Downtime',
-    },
-    {
-      id: 'available_time',
-      value: availableTime.value - downtime,
-      label: 'Available time in shift',
-    },
-  ];
+  return {
+    data: [
+      {
+        id: 'downtime',
+        value: roundDecimals(downtime),
+        label: 'Downtime',
+      },
+      {
+        id: 'available_time',
+        value: roundDecimals(availableTime.value - downtime),
+        label: 'Working time',
+      },
+    ],
+  };
 };
 
 export const transformLoss = (data: Array<MetricsResponse>): Array<LineChartData> => {

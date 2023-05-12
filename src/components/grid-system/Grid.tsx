@@ -6,12 +6,14 @@ interface GridProps {
   children: React.ReactElement<typeof Row> | Array<React.ReactElement<typeof Row>>;
 }
 
-const Grid = styled.div<GridProps>`
-  display: grid;
-  grid-template-rows: repeat(3, 1fr);
-  row-gap: 1em;
-  justify-content: center;
-  justify-items: start;
-`;
+const Grid = styled.div<GridProps>({
+  display: 'grid',
+  rowGap: '1em',
+  width: '100%',
+  gridTemplateRows: '0.05fr',
+  gridTemplateColumns: '1fr',
+  // justify-content: center;
+  // justify-items: start;
+});
 
 export default Grid;

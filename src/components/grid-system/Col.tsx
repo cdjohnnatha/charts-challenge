@@ -6,7 +6,7 @@ export type ColProps = {
 };
 
 const Col = styled.div<ColProps>({
-  flexShrink: 0,
+  flex: 1,
 });
 
 export default Col;
