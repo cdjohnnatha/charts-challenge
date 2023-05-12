@@ -1,55 +1,61 @@
-# Getting Started with Create React App
+# Youtube freetime organizer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+<!-- vscode-markdown-toc -->
 
-In the project directory, you can run:
+1. [Intro](#Intro)
+2. [Challenge](#Intro)
+3. [Installation](#Installation)
+   1. [React](#React)
+4. [Usage](#Usage)
+5. [Tests](#Tests)
+   1. [Unit Tests](#unitTests)
+   2. [E2E Tests](#e2eTests)
 
-### `npm start`
+## 1. <a name='Intro'></a>Intro
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The charts-challenge is frontend created in react to transform a sample of metrics data in a page view with charts.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 3. 📦 <a name='Installation'></a>Installation
 
-### `npm test`
+### 3.1 React
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+  npm install
+  npm start
+```
 
-### `npm run build`
+## 4. 📖 <a name='Usage'></a>Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In a manner to use a sample of data sent in the test I used a msw tool to mock requests response. With that, I was able to implement the ui with a backend representation where the request make from chart-challenge will get a proper data.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The frontend from this challenge is a simple one, it uses interactive charts and it was created a toolbox with metrics by time.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When clicked in the metrics time and selecting one of the options: by hour, by minutes, by secs, it will convert from one to other and update te charts bellow:
 
-### `npm run eject`
+- Downtime in last shift
+- Availability in last shift
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![picture](public/images/charts-challenge-screen.png)
 
 ---
 
-## Apps, Packages, and Tools
+## 5. 📄 <a name='Tests'></a>Tests
 
-This repo has 2 main top-level categories:
+To this project it was used two types of test
 
-- `src/` - for project files
-- `codeceptjs-test/` - for functional UI test and E2E test
+1. Unit tests with jest
+2. E2E with cypress.
+
+### 5.1 📄 <a name='unitTests'></a>Unit tests
+
+```
+  npm run test:unit
+```
+
+### 5.2 📄 <a name='e2eTests'></a>E2E tests
+
+```
+  npm run test:e2e:run
+```
