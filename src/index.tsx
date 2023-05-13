@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // Start the mocking conditionally.
-if (process.env.NODE_ENV === 'development') {
+if (process.env.REACT_APP_MSW_ENABLED === 'true') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { worker } = require('./mocks/browser');
   worker.start();
