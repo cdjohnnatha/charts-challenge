@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useMetricsApi } from './hooks/useMetricsApi';
 import styled from 'styled-components';
 import PieChart from './components/charts/PieChart';
@@ -11,12 +11,14 @@ import {
   transformDowntimeToChartProps,
   efficiencyAverageTransformProps,
   transformLoss,
+  transformChartApiResponseToCharts,
 } from './transforms';
 import { Grid, Row, Col } from './components/grid-system';
 import Dropdown from './components/dropdown/Dropdown';
 import { palette, spacing } from './packages/theme';
 import { TimeType } from './types';
 import Divider from './components/Divider';
+import ErrorMessage from './components/ErrorMessage';
 
 const GridLayout = styled.div({
   display: 'grid',
@@ -53,6 +55,8 @@ function App() {
   const onSelectTimeType = (timeType: string) => {
     setTimeMetricsSelected(timeType as TimeType);
   };
+  const errorMessage = 'This chart is unavailable';
+  const { availableCharts, metricsKeyMap } = useMemo(() => transformChartApiResponseToCharts(data || []), [data]);
 
   return (
     <GridLayout>
@@ -74,45 +78,67 @@ function App() {
         </ToolsBar>
       </NavBar>
       <Main>
-        {!isLoading && data && (
-          <Grid>
-            <Row>
-              <Col>
-                <Card title="Availability in last shift" id="chart-availability-last-shift">
-                  <PieChart
-                    sufixType={timeMetricsSelected}
-                    {...transformMetricsToAvailabilityProps(data, timeMetricsSelected)}
-                  />
-                </Card>
-              </Col>
-              <Col>
-                <Card
-                  title="Downtime in last shift"
-                  description="The presented data is in minutes and seconds"
-                  id="chart-downtime"
-                >
-                  <PieChart
-                    {...transformDowntimeToChartProps(data, timeMetricsSelected)}
-                    sufixType={timeMetricsSelected}
-                  />
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Card title="Efficiency Average" description="The efficiency in a day" id="chart-efficiency-average">
-                  <PieChart useUncomplete sufixType="percentage" {...efficiencyAverageTransformProps(data)} />
-                </Card>
-              </Col>
+        <Grid>
+          <Row>
+            <Col>
+              <Card title="Availability in last shift" id="chart-availability-last-shift">
+                <>
+                  {!isLoading && data && availableCharts.availability && (
+                    <PieChart
+                      sufixType={timeMetricsSelected}
+                      {...transformMetricsToAvailabilityProps(metricsKeyMap, timeMetricsSelected)}
+                    />
+                  )}
+                  {!isLoading && !availableCharts.availability && <ErrorMessage message={errorMessage} />}
+                </>
+              </Card>
+            </Col>
+            <Col>
+              <Card
+                title="Downtime in last shift"
+                description="The presented data is in minutes and seconds"
+                id="chart-downtime"
+              >
+                <>
+                  {!isLoading && data && availableCharts.downtime && (
+                    <PieChart
+                      {...transformDowntimeToChartProps(metricsKeyMap, timeMetricsSelected)}
+                      sufixType={timeMetricsSelected}
+                    />
+                  )}
+                  {!isLoading && !availableCharts.downtime && <ErrorMessage message={errorMessage} />}
+                </>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card title="Efficiency Average" description="The efficiency in a day" id="chart-efficiency-average">
+                <>
+                  {!isLoading && data && availableCharts.efficiency && (
+                    <PieChart
+                      useUncomplete
+                      sufixType="percentage"
+                      {...efficiencyAverageTransformProps(metricsKeyMap)}
+                    />
+                  )}
+                  {!isLoading && data && !availableCharts.efficiency && <ErrorMessage message={errorMessage} />}
+                </>
+              </Card>
+            </Col>
 
-              <Col>
-                <Card title="Loss" id="chart-loss">
-                  <LineChart data={transformLoss(data)} indexBy="label" ariaLabel="loss chart" />
-                </Card>
-              </Col>
-            </Row>
-          </Grid>
-        )}
+            <Col>
+              <Card title="Loss" id="chart-loss">
+                <>
+                  {!isLoading && data && availableCharts.loss && (
+                    <LineChart indexBy="label" ariaLabel="loss chart" {...transformLoss(metricsKeyMap)} />
+                  )}
+                  {!isLoading && !availableCharts.loss && <ErrorMessage message={errorMessage} />}
+                </>
+              </Card>
+            </Col>
+          </Row>
+        </Grid>
       </Main>
     </GridLayout>
   );

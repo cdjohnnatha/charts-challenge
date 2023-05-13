@@ -1,30 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import fetchMetricsApi, { MetricsQueryParams } from '../api/fetchMetrics';
 
-export type MetricsResponse = {
-  id: string;
-  label: string;
-  value: number;
-  type: 'percentage' | 'secs' | 'hours';
-  description: string;
-  category: string;
-};
-
-const headers = {
-  'Content-Type': 'application/json',
-};
-
-async function fetchMetricsApi(): Promise<Array<MetricsResponse>> {
-  const response = await fetch('http://localhost:3000/chart-api', { headers });
-  const metricsJson = await response.json();
-
-  return metricsJson.data;
-}
-
-export function useMetricsApi() {
+export function useMetricsApi(queryParamsType?: MetricsQueryParams) {
   const { data, error, isLoading } = useQuery({
     queryKey: ['fetch-wish-list-items'],
     refetchOnWindowFocus: false,
-    queryFn: () => fetchMetricsApi(),
+    queryFn: () => fetchMetricsApi(queryParamsType),
   });
 
   return { data, error, isLoading };

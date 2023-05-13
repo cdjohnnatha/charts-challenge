@@ -1,66 +1,59 @@
+export const chartNames = ['efficiencyAverage', 'downtime', 'availabilityLastShift', 'loss'] as const;
+type ChartNames = (typeof chartNames)[number];
+
+type ChartElementSelectors = {
+  card: string;
+  chart: string;
+  title: string;
+  description: string;
+  allText: string;
+  unavailableMessage: string;
+};
+
+class Chart {
+  selector: string;
+  childSelectors: ChartElementSelectors;
+
+  constructor(selector: string) {
+    this.selector = selector;
+    this.childSelectors = {
+      card: this.selector,
+      chart: `${this.selector} div:first-child`,
+      title: `${this.selector} h3`,
+      description: `${this.selector} p`,
+      allText: `${this.selector} g text`,
+      unavailableMessage: `${this.selector} h2`,
+    };
+  }
+}
+
 class Charts {
   cards = 'main .styled-card';
-  selectors = {
-    efficiencyAverage: '#chart-efficiency-average',
-    downtime: '#chart-downtime',
-    availabilityLastShift: '#chart-availability-last-shift',
-    loss: '#chart-loss',
-  };
-  names = {
-    efficiencyAverage: 'efficiencyAverage',
-    downtime: 'downtime',
-    availabilityLastShift: 'availabilityLastShift',
-    loss: 'loss',
-  };
-  card = {
-    efficiencyAverage: {
-      card: `${this.cards}${this.selectors.efficiencyAverage}`,
-      chart: `${this.cards}${this.selectors.efficiencyAverage} div:first-child`,
-      title: `${this.cards}${this.selectors.efficiencyAverage} h3`,
-      description: `${this.cards}${this.selectors.efficiencyAverage} p`,
-      allText: `${this.cards}${this.selectors.efficiencyAverage} g text`,
-    },
-    downtime: {
-      card: `${this.cards}${this.selectors.downtime}`,
-      chart: `${this.cards}${this.selectors.downtime} div:first-child`,
-      title: `${this.cards}${this.selectors.downtime} h3`,
-      description: `${this.cards}${this.selectors.downtime} p`,
-      allText: `${this.cards}${this.selectors.downtime} g text`,
-    },
-    availabilityLastShift: {
-      card: `${this.cards}${this.selectors.availabilityLastShift}`,
-      chart: `${this.cards}${this.selectors.availabilityLastShift} div:first-child`,
-      title: `${this.cards}${this.selectors.availabilityLastShift} h3`,
-      description: `${this.cards}${this.selectors.availabilityLastShift} p`,
-      allText: `${this.cards}${this.selectors.availabilityLastShift} g text`,
-    },
-    loss: {
-      card: `${this.cards}${this.selectors.loss}`,
-      chart: `${this.cards}${this.selectors.loss} div:first-child`,
-      title: `${this.cards}${this.selectors.loss} h3`,
-      description: `${this.cards}${this.selectors.loss} p`,
-      allText: `${this.cards}${this.selectors.loss} g text`,
-    },
-  };
+  efficiencyAverage: Chart;
+  downtime: Chart;
+  availabilityLastShift: Chart;
+  loss: Chart;
+
+  constructor() {
+    this.efficiencyAverage = new Chart(`${this.cards}#chart-efficiency-average`);
+    this.downtime = new Chart(`${this.cards}#chart-downtime`);
+    this.availabilityLastShift = new Chart(`${this.cards}#chart-availability-last-shift`);
+    this.loss = new Chart(`${this.cards}#chart-loss`);
+  }
 
   isNumber = (text: string) => /^-?[0-9]+(?:\.[0-9]+)?$/.test(text + '');
 
-  getAllChartText(chartName: string) {
-    const name = chartName as keyof typeof this.names;
-    return cy.get(this.card[name].allText);
+  getAllChartText(chartName: ChartNames) {
+    return cy.get(this[chartName].childSelectors.allText);
   }
 
-  getChartValues(chartName: string) {
+  getChartValues(chartName: ChartNames) {
     const values: Array<string> = [];
     return this.getAllChartText(chartName)
       .each(($el) => {
         const text = $el.text();
-        const textWithoutTimeType = text
-          .replace('secs', '')
-          .replace('h', '')
-          .replace('min', '')
-          .replace(':', '')
-          .trim();
+        const textWithoutTimeType = text.replace(/(secs|min|:|h|%)/g, '').trim();
+
         if (this.isNumber(textWithoutTimeType)) {
           values.push(text);
         }
@@ -68,7 +61,7 @@ class Charts {
       .then(() => values);
   }
 
-  getChartLabels(chartName: string): Array<string> {
+  getChartLabels(chartName: ChartNames): Array<string> {
     const values: Array<string> = [];
     this.getAllChartText(chartName).each((textEl) => {
       const text = textEl.text();

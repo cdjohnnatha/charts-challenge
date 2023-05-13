@@ -1,52 +1,87 @@
-import { LineChartData } from './components/charts/LineChart';
 import { PieChartProps } from './components/charts/PieChart';
-import { MetricsResponse } from './hooks/useMetricsApi';
+import { Metrics } from './api/fetchMetrics';
 import { roundDecimals, tranformFromTypeToTime } from './packages/helpers/timeHelper';
-import { TimeType } from './types';
+import { MetricsKeyMap, MetricsKeys, TimeType } from './types';
 
 type TransformToPieChartProps = Partial<PieChartProps> & Pick<PieChartProps, 'data'>;
 
-export const transformDowntimeToChartProps = (
-  data: Array<MetricsResponse>,
-  timeType: TimeType,
-): TransformToPieChartProps => {
-  const downtime = data.filter(({ id }) => ['cln_shift', 'unexplained', 'mech_problems'].includes(id));
+type ChartsTransform = {
+  metricsKeyMap: MetricsKeyMap;
+  availableCharts: {
+    downtime: boolean;
+    efficiency: boolean;
+    availability: boolean;
+    loss: boolean;
+  };
+};
 
-  const downtimePieChart = downtime.map(({ id, label, value, type }) => ({
-    id,
-    label,
-    value: tranformFromTypeToTime(type as TimeType, timeType, value),
-  }));
+export const transformChartApiResponseToCharts = (data: Metrics): ChartsTransform => {
+  const chartKeys = ['cln_shift', 'unexplained', 'mech_problems', 'shift_duration', 'oee', 'lbp', 'sl'];
+  const metricsKeyMap: MetricsKeyMap = {};
+
+  data.forEach((metrics) => {
+    if (chartKeys.includes(metrics?.id)) {
+      metricsKeyMap[metrics.id as keyof MetricsKeyMap] = metrics;
+    }
+  });
+
+  return {
+    metricsKeyMap,
+    availableCharts: {
+      downtime: Boolean(metricsKeyMap.cln_shift && metricsKeyMap.unexplained && metricsKeyMap.mech_problems),
+      efficiency: Boolean(metricsKeyMap.oee),
+      availability: Boolean(
+        metricsKeyMap.cln_shift &&
+          metricsKeyMap.unexplained &&
+          metricsKeyMap.mech_problems &&
+          metricsKeyMap.shift_duration,
+      ),
+      loss: Boolean(metricsKeyMap.lbp && metricsKeyMap.sl),
+    },
+  };
+};
+
+export const transformDowntimeToChartProps = (metrics: MetricsKeyMap, timeType: TimeType): TransformToPieChartProps => {
+  const downtimeKeys = ['cln_shift', 'unexplained', 'mech_problems'];
+  const downtimePieChart = downtimeKeys.map((key) => {
+    const { id, label, value, type } = metrics[key as MetricsKeys];
+    return {
+      id,
+      label,
+      value: tranformFromTypeToTime(type as TimeType, timeType, value),
+    };
+  });
 
   return { data: downtimePieChart };
 };
 
-export const efficiencyAverageTransformProps = (data: Array<MetricsResponse>): TransformToPieChartProps => {
-  const efficiency = data.filter(({ id }) => ['oee'].includes(id));
-
-  const downtimePieChart = efficiency.map(({ id, label, value }) => ({
-    id,
-    label,
-    value: value * 100,
-  }));
+export const efficiencyAverageTransformProps = (metrics: MetricsKeyMap): TransformToPieChartProps => {
+  const efficiencyKeys = ['oee'];
+  const efficiencyChart = efficiencyKeys.map((metricKey) => {
+    const { id, label, value } = metrics[metricKey as MetricsKeys];
+    return {
+      id,
+      label,
+      value: value * 100,
+    };
+  });
 
   return {
-    data: downtimePieChart,
+    data: efficiencyChart,
   };
 };
 
 export const transformMetricsToAvailabilityProps = (
-  data: Array<MetricsResponse>,
+  metrics: MetricsKeyMap,
   timeType: TimeType,
 ): TransformToPieChartProps => {
-  const efficiency = data.filter(({ id }) =>
-    ['cln_shift', 'unexplained', 'mech_problems', 'shift_duration'].includes(id),
-  );
+  const availabilityKeys = ['cln_shift', 'unexplained', 'mech_problems', 'shift_duration'];
 
   let availableTime = { label: '', value: 0 };
   let downtime = 0;
 
-  efficiency.forEach(({ id, label, value, type }) => {
+  availabilityKeys.forEach((metricKey) => {
+    const { id, label, value, type } = metrics[metricKey as MetricsKeys];
     const valueFormattedByTime = tranformFromTypeToTime(type as TimeType, timeType, value);
 
     if (id === 'shift_duration') {
@@ -73,12 +108,17 @@ export const transformMetricsToAvailabilityProps = (
   };
 };
 
-export const transformLoss = (data: Array<MetricsResponse>): Array<LineChartData> => {
-  const loss = data.filter(({ label }) => label.toLocaleLowerCase().includes('loss'));
+export const transformLoss = (metrics: MetricsKeyMap): TransformToPieChartProps => {
+  const lossKeys = ['lbp', 'sl'];
 
-  return loss.map(({ id, label, value }) => ({
-    id,
-    label,
-    value,
-  }));
+  return {
+    data: lossKeys.map((metricKey) => {
+      const { id, label, value } = metrics[metricKey as MetricsKeys];
+      return {
+        id,
+        label,
+        value,
+      };
+    }),
+  };
 };
