@@ -12,8 +12,6 @@ const Grid = styled.div<GridProps>({
   width: '100%',
   gridTemplateRows: '0.05fr',
   gridTemplateColumns: '1fr',
-  // justify-content: center;
-  // justify-items: start;
 });
 
 export default Grid;

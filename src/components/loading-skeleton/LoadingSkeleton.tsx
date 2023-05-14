@@ -1,6 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { palette } from '../../packages/theme';
+import styled from 'styled-components';
+import { palette, spacing } from '../../packages/theme';
 
 type SkeletonProps = {
   circle?: boolean;
@@ -8,9 +9,13 @@ type SkeletonProps = {
   height: string;
 };
 
+const StyledSkeleton = styled(Skeleton)({
+  marginTop: spacing(5),
+});
+
 export default function LoadingSkeleton({ circle, width, height }: SkeletonProps) {
   return (
-    <Skeleton
+    <StyledSkeleton
       {...(circle && { circle })}
       width={width}
       height={height}

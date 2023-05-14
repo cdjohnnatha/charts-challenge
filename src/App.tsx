@@ -137,7 +137,7 @@ function App() {
                           {...efficiencyAverageTransformProps(metricsKeyMap)}
                         />
                       )}
-                      {data && !availableCharts.efficiency && <ErrorMessage message={errorMessage} />}
+                      {!availableCharts.efficiency && <ErrorMessage message={errorMessage} />}
                     </>
                   )}
                 </>
@@ -147,7 +147,7 @@ function App() {
             <Col>
               <Card title="Loss" id="chart-loss">
                 <>
-                  {isLoading && <LoadingSkeleton width={'50rem'} height={'14rem'} />}
+                  {isLoading && <LoadingSkeleton width={'35rem'} height={'14rem'} />}
                   {!isLoading && (
                     <>
                       {data && availableCharts.loss && (

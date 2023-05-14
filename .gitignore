@@ -33,3 +33,7 @@ yarn-error.log*
 *.swp
 *.swo
 .idea
+
+#cypress
+cypress/videos/*
+cypress/screenshots/*
