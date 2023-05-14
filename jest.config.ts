@@ -22,7 +22,7 @@ export default {
   collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['**/*.{ts,tsx}'],
+  collectCoverageFrom: ['**/*.{ts,tsx}', '!**/*.stories.tsx'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
@@ -43,7 +43,6 @@ export default {
     '/src/index.tsx',
     '/src/components/charts/LineChart',
     '/src/components/charts/',
-    '!<rootDir>/*/src/**/stories.tsx',
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports
