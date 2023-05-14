@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { breakpoints, palette, spacing, typography } from '../packages/theme';
-import Divider from './Divider';
+import { breakpoints, palette, spacing, typography } from '../../packages/theme';
+import Divider from '../Divider';
 
 export type CardProps = {
   title: string;

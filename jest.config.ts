@@ -43,6 +43,7 @@ export default {
     '/src/index.tsx',
     '/src/components/charts/LineChart',
     '/src/components/charts/',
+    '!<rootDir>/*/src/**/stories.tsx',
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports

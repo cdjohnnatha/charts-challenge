@@ -7,8 +7,8 @@ type DropdownDataset = {
   value: string;
 };
 
-type DropdownProps = {
-  dataset: Array<DropdownDataset>;
+export type DropdownProps = {
+  options: Array<DropdownDataset>;
   label: string;
   name: string;
   selected: string;
@@ -30,7 +30,7 @@ const Label = styled.label({
   ...typography.sm,
 });
 
-function Dropdown({ dataset, label, name, selected, onSelect, disabled }: DropdownProps) {
+function Dropdown({ options, label, name, selected, onSelect, disabled }: DropdownProps) {
   const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onSelect(event.target.value);
   };
@@ -39,7 +39,7 @@ function Dropdown({ dataset, label, name, selected, onSelect, disabled }: Dropdo
     <Container>
       <Label htmlFor={name}>{label}</Label>
       <Select name={name} id="metrics-dropdown" onChange={onDropdownChange} value={selected} disabled={disabled}>
-        {dataset.map(({ label, value }) => (
+        {options.map(({ label, value }) => (
           <option key={`metrics-dropdown-${label}`} value={value}>
             {label}
           </option>

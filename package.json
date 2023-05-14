@@ -29,12 +29,24 @@
     "lint-staged": "lint-staged --verbose",
     "test:unit": "NODE_ENV=test jest --silent",
     "test:e2e:open": "./node_modules/.bin/cypress open",
-    "test:e2e:run": "./node_modules/.bin/cypress run"
+    "test:e2e:run": "./node_modules/.bin/cypress run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "engines": {
@@ -45,15 +57,25 @@
     "@bahmutov/add-typescript-to-cypress": "^2.1.2",
     "@faker-js/faker": "^7.6.0",
     "@jest/globals": "^29.5.0",
+    "@storybook/addon-essentials": "^7.0.11",
+    "@storybook/addon-interactions": "^7.0.11",
+    "@storybook/addon-links": "^7.0.11",
+    "@storybook/blocks": "^7.0.11",
+    "@storybook/preset-create-react-app": "^7.0.11",
+    "@storybook/react": "^7.0.11",
+    "@storybook/react-webpack5": "^7.0.11",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/jest": "^29.5.1",
     "@types/node": "^20.1.1",
     "@types/styled-components": "^5.1.15",
     "@typescript-eslint/eslint-plugin": "^5.59.5",
     "@typescript-eslint/parser": "^5.59.5",
+    "babel-plugin-named-exports-order": "^0.0.2",
     "cypress": "^12.12.0",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-storybook": "^0.6.12",
     "husky": "^8.0.3",
     "jest-mock": "^29.5.0",
     "jsdom": "^22.0.0",
@@ -61,9 +83,12 @@
     "msw": "^1.2.1",
     "node-fetch": "^3.3.1",
     "prettier": "2.8.8",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.11",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "webpack": "^5.82.1"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

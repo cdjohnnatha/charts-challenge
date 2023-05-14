@@ -6,7 +6,8 @@
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "overrides": [],
