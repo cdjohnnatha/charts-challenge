@@ -3,7 +3,7 @@ import { useMetricsApi } from './hooks/useMetricsApi';
 import styled from 'styled-components';
 
 import PieChart from './components/charts/PieChart';
-import Card from './components/Card';
+import Card from './components/card/Card';
 import Header from './components/Header';
 import LineChart from './components/charts/LineChart';
 import {
@@ -68,7 +68,7 @@ function App() {
           <Dropdown
             name="metricsType"
             label="Choose metrics time"
-            dataset={[
+            options={[
               { value: 'hours', label: 'By hour' },
               { value: 'minutes', label: 'By min' },
               { value: 'secs', label: 'By secs' },

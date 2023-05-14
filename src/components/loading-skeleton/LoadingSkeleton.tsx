@@ -3,7 +3,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import styled from 'styled-components';
 import { palette, spacing } from '../../packages/theme';
 
-type SkeletonProps = {
+export type SkeletonProps = {
   circle?: boolean;
   width: string;
   height: string;

@@ -39,7 +39,7 @@ type RenderDropdown = {
 function renderDropdown({ selected, onSelect, disabled }: RenderDropdown): RenderResult {
   return render(
     <Dropdown
-      dataset={dropdownDataset}
+      options={dropdownDataset}
       label="TEST_LABEL"
       name="test-dropdown"
       onSelect={onSelect || jest.fn}
