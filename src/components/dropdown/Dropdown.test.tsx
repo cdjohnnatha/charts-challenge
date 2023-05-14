@@ -3,7 +3,7 @@ import Dropdown from './Dropdown';
 
 describe('Dropdown', () => {
   it('Render proper dropdown', () => {
-    const { getByText, getAllByRole, getByRole } = renderCard('value2');
+    const { getByText, getAllByRole, getByRole } = renderDropdown({ selected: 'value2' });
 
     expect(getAllByRole('option').length).toBe(2);
     expect(getByText('TEST_LABEL')).toBeVisible();
@@ -13,7 +13,7 @@ describe('Dropdown', () => {
   it('When clicking an option should trigger onSelect function', () => {
     const onSelect = jest.fn();
 
-    const { getByRole } = renderCard('value2', onSelect);
+    const { getByRole } = renderDropdown({ selected: 'value2', onSelect });
 
     const dropdown = getByRole('combobox');
 
@@ -22,9 +22,21 @@ describe('Dropdown', () => {
     expect(onSelect).toBeCalledTimes(1);
     expect(onSelect).toBeCalledWith('value2');
   });
+
+  it('When is disabled is true the dropdown should be in disabled mode', () => {
+    const { getByRole } = renderDropdown({ disabled: true });
+
+    expect(getByRole('combobox')).toBeDisabled();
+  });
 });
 
-function renderCard(selected?: string, onSelect?: (selected: string) => void): RenderResult {
+type RenderDropdown = {
+  selected?: string;
+  onSelect?: (selected: string) => void;
+  disabled?: boolean;
+};
+
+function renderDropdown({ selected, onSelect, disabled }: RenderDropdown): RenderResult {
   return render(
     <Dropdown
       dataset={dropdownDataset}
@@ -32,6 +44,7 @@ function renderCard(selected?: string, onSelect?: (selected: string) => void): R
       name="test-dropdown"
       onSelect={onSelect || jest.fn}
       selected={selected || 'value1'}
+      disabled={disabled || false}
     />,
   );
 }

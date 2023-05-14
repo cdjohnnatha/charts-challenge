@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { useMetricsApi } from './hooks/useMetricsApi';
 import styled from 'styled-components';
+
 import PieChart from './components/charts/PieChart';
 import Card from './components/Card';
 import Header from './components/Header';
 import LineChart from './components/charts/LineChart';
-
 import {
   transformMetricsToAvailabilityProps,
   transformDowntimeToChartProps,
@@ -19,6 +19,7 @@ import { palette, spacing } from './packages/theme';
 import { TimeType } from './types';
 import Divider from './components/Divider';
 import ErrorMessage from './components/ErrorMessage';
+import LoadingSkeleton from './components/loading-skeleton/LoadingSkeleton';
 
 const GridLayout = styled.div({
   display: 'grid',
@@ -74,6 +75,7 @@ function App() {
             ]}
             selected={timeMetricsSelected}
             onSelect={onSelectTimeType}
+            disabled={!data || data.length === 0}
           />
         </ToolsBar>
       </NavBar>
@@ -83,13 +85,18 @@ function App() {
             <Col>
               <Card title="Availability in last shift" id="chart-availability-last-shift">
                 <>
-                  {!isLoading && data && availableCharts.availability && (
-                    <PieChart
-                      sufixType={timeMetricsSelected}
-                      {...transformMetricsToAvailabilityProps(metricsKeyMap, timeMetricsSelected)}
-                    />
+                  {isLoading && <LoadingSkeleton circle width={'14rem'} height={'14rem'} />}
+                  {!isLoading && (
+                    <>
+                      {data && availableCharts.availability && (
+                        <PieChart
+                          sufixType={timeMetricsSelected}
+                          {...transformMetricsToAvailabilityProps(metricsKeyMap, timeMetricsSelected)}
+                        />
+                      )}
+                      {!availableCharts.availability && <ErrorMessage message={errorMessage} />}
+                    </>
                   )}
-                  {!isLoading && !availableCharts.availability && <ErrorMessage message={errorMessage} />}
                 </>
               </Card>
             </Col>
@@ -100,13 +107,18 @@ function App() {
                 id="chart-downtime"
               >
                 <>
-                  {!isLoading && data && availableCharts.downtime && (
-                    <PieChart
-                      {...transformDowntimeToChartProps(metricsKeyMap, timeMetricsSelected)}
-                      sufixType={timeMetricsSelected}
-                    />
+                  {isLoading && <LoadingSkeleton circle width={'14rem'} height={'14rem'} />}
+                  {!isLoading && (
+                    <>
+                      {data && availableCharts.downtime && (
+                        <PieChart
+                          {...transformDowntimeToChartProps(metricsKeyMap, timeMetricsSelected)}
+                          sufixType={timeMetricsSelected}
+                        />
+                      )}
+                      {!availableCharts.downtime && <ErrorMessage message={errorMessage} />}
+                    </>
                   )}
-                  {!isLoading && !availableCharts.downtime && <ErrorMessage message={errorMessage} />}
                 </>
               </Card>
             </Col>
@@ -115,14 +127,19 @@ function App() {
             <Col>
               <Card title="Efficiency Average" description="The efficiency in a day" id="chart-efficiency-average">
                 <>
-                  {!isLoading && data && availableCharts.efficiency && (
-                    <PieChart
-                      useUncomplete
-                      sufixType="percentage"
-                      {...efficiencyAverageTransformProps(metricsKeyMap)}
-                    />
+                  {isLoading && <LoadingSkeleton circle width={'14rem'} height={'14rem'} />}
+                  {!isLoading && (
+                    <>
+                      {data && availableCharts.efficiency && (
+                        <PieChart
+                          useUncomplete
+                          sufixType="percentage"
+                          {...efficiencyAverageTransformProps(metricsKeyMap)}
+                        />
+                      )}
+                      {data && !availableCharts.efficiency && <ErrorMessage message={errorMessage} />}
+                    </>
                   )}
-                  {!isLoading && data && !availableCharts.efficiency && <ErrorMessage message={errorMessage} />}
                 </>
               </Card>
             </Col>
@@ -130,10 +147,15 @@ function App() {
             <Col>
               <Card title="Loss" id="chart-loss">
                 <>
-                  {!isLoading && data && availableCharts.loss && (
-                    <LineChart indexBy="label" ariaLabel="loss chart" {...transformLoss(metricsKeyMap)} />
+                  {isLoading && <LoadingSkeleton width={'50rem'} height={'14rem'} />}
+                  {!isLoading && (
+                    <>
+                      {data && availableCharts.loss && (
+                        <LineChart indexBy="label" ariaLabel="loss chart" {...transformLoss(metricsKeyMap)} />
+                      )}
+                      {!availableCharts.loss && <ErrorMessage message={errorMessage} />}
+                    </>
                   )}
-                  {!isLoading && !availableCharts.loss && <ErrorMessage message={errorMessage} />}
                 </>
               </Card>
             </Col>

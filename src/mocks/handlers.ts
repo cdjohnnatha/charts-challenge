@@ -10,6 +10,14 @@ export const handlers = [
         return res(ctx.delay(1500), ctx.status(200), ctx.json({ data: [] }));
       }
 
+      case 'notFound': {
+        return res(ctx.delay(1000), ctx.status(404));
+      }
+
+      case 'internalError': {
+        return res(ctx.delay(1000), ctx.status(500));
+      }
+
       default: {
         return res(ctx.status(200), ctx.json(mockDataApi));
       }

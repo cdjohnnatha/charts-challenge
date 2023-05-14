@@ -110,6 +110,7 @@ export default {
     '^react-dom$': path.join(__dirname, 'node_modules/react-dom/cjs/react-dom.development.js'),
     '^styled-components$': path.join(__dirname, 'node_modules/styled-components/dist/styled-components.cjs.js'),
     '^d3-color': path.join(__dirname, 'node_modules/d3-color/dist/d3-color.js'),
+    '^react-loading-skeleton': path.join(__dirname, 'node_modules/react-loading-skeleton/dist/index.cjs'),
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
