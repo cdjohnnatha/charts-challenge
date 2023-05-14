@@ -1,4 +1,4 @@
-export type MetricsQueryParams = 'emptyData';
+export type MetricsQueryParams = 'emptyData' | 'notFound' | 'internalError' | 'successDelayed';
 
 export type Metric = {
   id: string;

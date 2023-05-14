@@ -7,38 +7,36 @@ import charts from '../pageObjects/charts';
 
 describe('Dashboard', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/chart-api', { fixture: 'chartApiResponse' }).as('getChartApi');
-    cy.viewport('macbook-16').visit('http://localhost:3000');
+    cy.intercept('GET', '/chart-api', { fixture: 'chartApiResponse', statusCode: 200 }).as('getChartApi');
+    cy.viewport('iphone-8').visit('http://localhost:3000');
     cy.wait('@getChartApi');
   });
 
-  describe('Page layout', () => {
-    it('Nav Layout', () => {
-      cy.get(navbar.title).should('be.visible').and('have.text', 'Welcome to reports');
+  it('Nav Layout', () => {
+    cy.get(navbar.title).should('be.visible').and('have.text', 'Welcome to reports');
 
-      cy.get(navbar.toolsArea.container).should('be.visible').and('have.length', 1);
-      cy.get(navbar.toolsArea.timeBox.container).should('be.visible');
-      cy.get(navbar.toolsArea.timeBox.label).should('be.visible').and('have.text', 'Choose metrics time');
-      cy.get(navbar.toolsArea.timeBox.dropdown).should('be.visible');
+    cy.get(navbar.toolsArea.container).should('be.visible').and('have.length', 1);
+    cy.get(navbar.toolsArea.timeBox.container).should('be.visible');
+    cy.get(navbar.toolsArea.timeBox.label).should('be.visible').and('have.text', 'Choose metrics time');
+    cy.get(navbar.toolsArea.timeBox.dropdown).should('be.visible');
 
-      cy.get(charts.cards).should('be.visible').and('have.length', 4);
-    });
+    cy.get(charts.cards).should('be.visible').and('have.length', 4);
+  });
 
-    it('Cards Layout', () => {
-      cy.get(charts.availabilityLastShift.childSelectors.card).should('be.visible');
-      cy.get(charts.availabilityLastShift.childSelectors.title).should('be.visible');
-      cy.get(charts.downtime.childSelectors.card).should('be.visible');
-      cy.get(charts.downtime.childSelectors.title).should('be.visible');
-      cy.get(charts.efficiencyAverage.childSelectors.card).should('be.visible');
-      cy.get(charts.efficiencyAverage.childSelectors.title).should('be.visible');
-      cy.get(charts.loss.childSelectors.card).should('be.visible');
-      cy.get(charts.loss.childSelectors.title).should('be.visible');
-    });
+  it('Cards Layout', () => {
+    cy.get(charts.availabilityLastShift.childSelectors.card).should('be.visible');
+    cy.get(charts.availabilityLastShift.childSelectors.title).should('be.visible');
+    cy.get(charts.downtime.childSelectors.card).should('be.visible');
+    cy.get(charts.downtime.childSelectors.title).should('be.visible');
+    cy.get(charts.efficiencyAverage.childSelectors.card).should('be.visible');
+    cy.get(charts.efficiencyAverage.childSelectors.title).should('be.visible');
+    cy.get(charts.loss.childSelectors.card).should('be.visible');
+    cy.get(charts.loss.childSelectors.title).should('be.visible');
+  });
 
-    it('Match default dropdown timebox by minutes should use minutes in charts', () => {
-      charts.getChartValues('downtime').should('deep.equal', ['38 min', '3 min', '20.16 min']);
-      charts.getChartValues('availabilityLastShift').should('deep.equal', ['61.16 min', '418.84 min']);
-    });
+  it('Match default dropdown timebox by minutes should use minutes in charts', () => {
+    charts.getChartValues('downtime').should('deep.equal', ['38 min', '3 min', '20.16 min']);
+    charts.getChartValues('availabilityLastShift').should('deep.equal', ['61.16 min', '418.84 min']);
   });
 
   describe('Page loading', () => {

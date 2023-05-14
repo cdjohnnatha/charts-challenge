@@ -13,6 +13,7 @@ type DropdownProps = {
   name: string;
   selected: string;
   onSelect: (selected: string) => void;
+  disabled: boolean;
 };
 
 const Container = styled.div({
@@ -29,7 +30,7 @@ const Label = styled.label({
   ...typography.sm,
 });
 
-function Dropdown({ dataset, label, name, selected, onSelect }: DropdownProps) {
+function Dropdown({ dataset, label, name, selected, onSelect, disabled }: DropdownProps) {
   const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onSelect(event.target.value);
   };
@@ -37,7 +38,7 @@ function Dropdown({ dataset, label, name, selected, onSelect }: DropdownProps) {
   return (
     <Container>
       <Label htmlFor={name}>{label}</Label>
-      <Select name={name} id="metrics-dropdown" onChange={onDropdownChange} value={selected}>
+      <Select name={name} id="metrics-dropdown" onChange={onDropdownChange} value={selected} disabled={disabled}>
         {dataset.map(({ label, value }) => (
           <option key={`metrics-dropdown-${label}`} value={value}>
             {label}
